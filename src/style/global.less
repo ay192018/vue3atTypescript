@@ -1,0 +1,67 @@
+html {
+  overflow: hidden;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
+
+@black: #000;
+@white: #fff;
+@gray-1: #ebebeb;
+@gray-2: #e1e1e1;
+@gray-3: #ebedf0;
+@gray-4: #dcdee0;
+@gray-5: #c8c9cc;
+@gray-6: #2b2b2b;
+@gray-7: #404040;
+@gray-8: #242424;
+@red: #ee0a24;
+@blue: #1989fa;
+@orange: #ff976a;
+@orange-dark: #ed6a0c;
+@orange-light: #fffbe8;
+@green: #07c160;
+@bcakgroundLight: rgb(245, 245, 245);
+@borderLightSize: 1px;
+:root {
+  ---headerBackground-color: @bcakgroundLight;
+  ---AsideBorderRight-color: @gray-2;
+  ---AsideBackground-color: @white;
+  ---Aside-color: @black;
+  ---AsideActiveBackground-color: #f6f6f7;
+  ---inputBackground-color: @gray-1;
+  ---color: @black;
+  ---loadingBackground-color: rgba(255, 255, 255, 0.9);
+}
+.child-view {
+  /*  position: absolute; */
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+/* 离开 */
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+/* 进入 */
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(50px);
+}
+.personality,
+.singer,
+.ranking,
+.playlist,
+.newMusic,
+.exclusive {
+  box-sizing: border-box;
+  overflow-x: hidden;
+  /*   height: 80vh;
+  overflow-y: auto; */
+}
+::v-deep(.el-loading-spinner .el-loading-text) {
+  color: var(---color);
+}
+::v-deep(.el-loading-spinner .path) {
+  stroke: var(---color);
+}

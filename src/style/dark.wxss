@@ -1,0 +1,11 @@
+:root [color-scheme="dark"] {
+  ---headerBackground-color: #242424;
+  ---AsideBorderRight-color: #404040;
+  ---AsideBackground-color: #2b2b2b;
+  ---Aside-color: #fff;
+  ---AsideActiveBackground-color: #333333;
+  ---MainBackground-color: #2b2b2b;
+  ---Main-color: #b5b5b5;
+  ---inputBackground-color: #2a2a2d;
+  ---color: #fff;
+}
