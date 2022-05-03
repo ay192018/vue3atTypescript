@@ -1,15 +1,20 @@
 <template>
-  <div class="Details">动态路由{{ params.id }}</div>
+  <div class="Details">
+    <Playlist />
+    <SongData />
+  </div>
 </template>
 
 <script setup lang="ts">
+import Playlist from './components/playlist.vue';
+import SongData from './components/songData.vue';
 const params = defineProps({
   id: {
     type: String,
-    default: "",
+    default: '',
     required: true,
   },
-})
+});
 </script>
 
 <style scoped lang="less"></style>

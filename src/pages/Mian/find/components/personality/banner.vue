@@ -21,8 +21,6 @@ onMounted(async () => {
   const { data }: any = await Banner();
 
   banner.value = data.banners;
-
-  console.log(data.banners);
 });
 </script>
 

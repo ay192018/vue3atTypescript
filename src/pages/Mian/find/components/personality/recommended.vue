@@ -23,26 +23,26 @@
 </template>
 
 <script setup lang="ts">
-import { Recommended } from "@/service/api/find"
-import { ArrowRightBold } from "@element-plus/icons-vue"
+import { Recommended } from '@/service/api/find';
+import { ArrowRightBold } from '@element-plus/icons-vue';
 
-const list = ref<any[]>([])
+const list = ref<any[]>([]);
 onMounted(async () => {
   const { data } = await Recommended({
     limit: 40,
-  })
-  list.value = data.result
-  console.log(data.result)
-})
-const router = useRouter()
+  });
+  list.value = data.result;
+  /*   console.log(data.result) */
+});
+const router = useRouter();
 const Details = (id: string | number) => {
   router.push({
-    name: "Details",
+    name: 'Details',
     params: {
       id: id,
     },
-  })
-}
+  });
+};
 </script>
 
 <style scoped lang="less">

@@ -14,6 +14,7 @@ export const theme = defineStore(Name.theme, {
   state: () => {
     return {
       color: 'rgba(245, 245, 245, 0.68)',
+      fontSizeColor: '#000',
     };
   },
 });

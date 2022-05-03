@@ -6,18 +6,18 @@
     />
     <div class="userName">
       宇ovo
-
       <el-icon :size="20">
         <CaretBottom />
       </el-icon>
-      <el-color-picker
-        v-model="color"
-        show-alpha
-        color-format="hex"
-        :predefine="predefineColors"
-        @active-change="changeColor"
-        class="color-picker"
-      />
+      <div class="hidden-xs-only">
+        <el-color-picker
+          v-model="color"
+          show-alpha
+          color-format="hex"
+          :predefine="predefineColors"
+          @active-change="changeColor"
+        />
+      </div>
     </div>
 
     <el-switch
@@ -41,7 +41,7 @@ import { theme } from '@/global/index';
 import { CaretBottom, Setting, Moon, Sunny } from '@element-plus/icons-vue';
 
 //解构响应式
-const { color } = storeToRefs(theme());
+const { color, fontSizeColor } = storeToRefs(theme());
 /* const color = ref<string>('rgba(255, 69, 0, 0.68)'); */
 const predefineColors = ref([
   'rgb(36, 36, 36)',
@@ -62,6 +62,7 @@ const changeColor = (e: string): void => {
   color.value = e;
   isDark.value = false;
 };
+
 const changeTheme = (e: boolean) => {
   if (e) {
     color.value = 'rgb(36, 36, 36)';
@@ -69,6 +70,16 @@ const changeTheme = (e: boolean) => {
     color.value = 'rgb(245, 245, 245)';
   }
 };
+watch(
+  () => color.value,
+  (val: string) => {
+    if (val !== 'rgb(245, 245, 245)') {
+      fontSizeColor.value = '#fff';
+    } else {
+      fontSizeColor.value = '#000';
+    }
+  },
+);
 const isDark = useDark({
   selector: 'body',
   attribute: 'color-scheme',
@@ -86,17 +97,17 @@ const isDark = useDark({
   .userName {
     flex: 0.5;
     cursor: pointer;
-    color: var(---color);
+    color: v-bind(fontSizeColor);
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   ::v-deep(.el-icon) {
     cursor: pointer;
     vertical-align: middle;
-    color: var(---color);
     transition: color 0.3s;
-  }
-  .color-picker {
-    top: 60px;
+    color: v-bind(fontSizeColor);
   }
 }
 </style>

@@ -13,13 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowLeftBold, ArrowRightBold } from "@element-plus/icons-vue"
-
-name: "logo"
-const router = useRouter()
+import { theme } from '@/global/index';
+import { ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue';
+const { fontSizeColor } = storeToRefs(theme());
+name: 'logo';
+const router = useRouter();
 const change = (e: MouseEventInit): void => {
-  console.log(e)
-}
+  console.log(e);
+};
 </script>
 
 <style lang="less" scoped>
@@ -62,7 +63,7 @@ const change = (e: MouseEventInit): void => {
     ::v-deep(.el-icon) {
       cursor: pointer;
       vertical-align: middle;
-      color: var(---color);
+      color: v-bind(fontSizeColor);
     }
   }
 }
