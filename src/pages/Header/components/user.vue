@@ -13,8 +13,10 @@
       <el-color-picker
         v-model="color"
         show-alpha
+        color-format="hex"
         :predefine="predefineColors"
         @active-change="changeColor"
+        class="color-picker"
       />
     </div>
 
@@ -42,21 +44,19 @@ import { CaretBottom, Setting, Moon, Sunny } from '@element-plus/icons-vue';
 const { color } = storeToRefs(theme());
 /* const color = ref<string>('rgba(255, 69, 0, 0.68)'); */
 const predefineColors = ref([
+  'rgb(36, 36, 36)',
   'rgb(236,65,65)',
-  '#ff4500',
-  '#ff8c00',
-  '#ffd700',
-  '#90ee90',
-  '#00ced1',
-  '#1e90ff',
-  '#c71585',
-  'rgba(255, 69, 0, 0.68)',
-  'rgb(255, 120, 0)',
-  'hsv(51, 100, 98)',
-  'hsva(120, 40, 94, 0.5)',
-  'hsl(181, 100%, 37%)',
-  'hsla(209, 100%, 56%, 0.73)',
-  '#c7158577',
+  'rgb(255,92,138)',
+  'rgb(255,122,158)',
+  'rgb(113,127,249)',
+  'rgb(71,145,235)',
+  'rgb(57,175,234)',
+  'rgb(43,182,105)',
+  'rgb(106,204,25)',
+  'rgb(226,171,18)',
+  'rgb(255,143,87)',
+  'rgb(253,114,109)',
+  'rgb(253,84,78)',
 ]);
 const changeColor = (e: string): void => {
   color.value = e;
@@ -94,6 +94,9 @@ const isDark = useDark({
     vertical-align: middle;
     color: var(---color);
     transition: color 0.3s;
+  }
+  .color-picker {
+    top: 60px;
   }
 }
 </style>

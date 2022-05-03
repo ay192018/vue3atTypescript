@@ -45,3 +45,6 @@ html {
 ::v-deep(.el-loading-spinner .path) {
   stroke: var(---color);
 }
+::v-deep(.el-icon) {
+  color: #fff;
+}

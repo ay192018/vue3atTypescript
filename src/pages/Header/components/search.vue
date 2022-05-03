@@ -9,8 +9,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Search } from "@element-plus/icons-vue"
-const input1 = ref<string>("")
+import { Search } from '@element-plus/icons-vue';
+import { theme } from '@/global/index';
+const input1 = ref<string>('');
+const { color } = storeToRefs(theme());
 </script>
 
 <style lang="less" scoped>
@@ -23,6 +25,9 @@ const input1 = ref<string>("")
   ::v-deep(.el-input__wrapper) {
     background: var(---inputBackground-color);
     transition: @transition;
+  }
+  ::v-deep(.is-focus) {
+    box-shadow: 0 0 0 1px v-bind(color);
   }
 }
 </style>

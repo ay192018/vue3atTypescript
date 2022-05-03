@@ -13,7 +13,7 @@ interface theme {
 export const theme = defineStore(Name.theme, {
   state: () => {
     return {
-      color: 'rgba(255, 69, 0, 0.68)',
+      color: 'rgba(245, 245, 245, 0.68)',
     };
   },
 });
