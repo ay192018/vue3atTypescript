@@ -3,16 +3,12 @@
     <el-row :gutter="20">
       <el-col :span="4"
         ><div class="grid-content">
-          <img
-            src="https://p1.music.126.net/zeZc8FG5uVkmgUt2L7tYLw==/109951167285317254.jpg"
-          /></div
+          <img :src="playlist.coverImgUrl" /></div
       ></el-col>
       <el-col :span="15"
         ><div class="grid-content">
           <el-tag class="mx-1">专辑</el-tag>
-          <span class="title"
-            >今天从《Everybody Dies In Their Nightmares》听起|私人雷达</span
-          >
+          <span class="title">{{ playlist.name }}</span>
         </div></el-col
       >
     </el-row>
@@ -22,6 +18,14 @@
 <script setup lang="ts">
 import { theme } from '@/global/index';
 const { color } = storeToRefs(theme());
+const result = defineProps({
+  playlist: {
+    type: Object,
+    //必须的
+    required: true,
+  },
+});
+const { playlist } = toRefs(result);
 </script>
 
 <style lang="less" scoped>

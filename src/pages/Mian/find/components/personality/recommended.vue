@@ -14,7 +14,13 @@
           <img :src="item.picUrl" alt="" draggable="false" />
           <div class="data">
             <span class="title">{{ item.name }}</span>
-            <div class="count"></div>
+            <div class="count">
+              <el-icon :size="20"><video-play /></el-icon>
+              {{ count(item.playCount) }}
+            </div>
+            <div class="play">
+              <el-icon :size="27" :color="color"><caret-right /></el-icon>
+            </div>
           </div>
         </div>
       </el-col>
@@ -24,15 +30,17 @@
 
 <script setup lang="ts">
 import { Recommended } from '@/service/api/find';
-import { ArrowRightBold } from '@element-plus/icons-vue';
-
+import { ArrowRightBold, VideoPlay, CaretRight } from '@element-plus/icons-vue';
+import { count } from '@/Utils/Utils';
+import { theme } from '@/global/index';
 const list = ref<any[]>([]);
+const { color } = storeToRefs(theme());
 onMounted(async () => {
   const { data } = await Recommended({
     limit: 40,
   });
   list.value = data.result;
-  /*   console.log(data.result) */
+  console.log(data.result);
 });
 const router = useRouter();
 const Details = (id: string | number) => {
@@ -55,6 +63,7 @@ const Details = (id: string | number) => {
 .el-col {
   border-radius: 4px;
 } */
+@opacity:opacity .3s;
 .recommended {
   width: 100%;
   .title {
@@ -69,6 +78,7 @@ const Details = (id: string | number) => {
     }
   }
   .grid-content {
+    width: 100%;
     position: relative;
     border-radius: 4px;
     min-height: 36px;
@@ -92,6 +102,35 @@ const Details = (id: string | number) => {
         font-weight: 400;
         font-size: 15px;
       }
+    }
+    .count {
+      position: absolute;
+      top: 1%;
+      right: 5%;
+      color: #fff;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .play {
+      position: absolute;
+      left: 5%;
+      bottom: 27%;
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      transition: @opacity;
+      ::v-deep(.el-icon) {
+        margin: 6px 0 0 7px;
+      }
+    }
+  }
+  .grid-content:hover {
+    .play {
+      opacity: 1;
     }
   }
 }

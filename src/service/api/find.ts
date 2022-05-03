@@ -13,3 +13,13 @@ export const Recommended = (params: Limit): Promise<any> => {
     params,
   });
 };
+interface PlaylistDetail {
+  id: string | number;
+  s?: number;
+}
+export const PlaylistDetail = (params: PlaylistDetail): Promise<any> => {
+  return $HTTP({
+    url: '/playlist/detail',
+    params,
+  });
+};
