@@ -11,7 +11,11 @@
         v-for="(item, index) in list"
         :key="index"
         ><div class="grid-content">
-          <img :src="item.picUrl" alt="" draggable="false" />
+          <img
+            :src="item.picUrl"
+            alt=""
+            draggable="false"
+          />
           <div class="data">
             <span class="title">{{ item.name }}</span>
             <div class="count">
@@ -19,7 +23,9 @@
               {{ count(item.playCount) }}
             </div>
             <div class="play">
-              <el-icon :size="27" :color="color"><caret-right /></el-icon>
+              <el-icon :size="27" :color="color"
+                ><caret-right
+              /></el-icon>
             </div>
           </div>
         </div>
@@ -30,7 +36,11 @@
 
 <script setup lang="ts">
 import { Recommended } from '@/service/api/find';
-import { ArrowRightBold, VideoPlay, CaretRight } from '@element-plus/icons-vue';
+import {
+  ArrowRightBold,
+  VideoPlay,
+  CaretRight,
+} from '@element-plus/icons-vue';
 import { count } from '@/Utils/Utils';
 import { theme } from '@/global/index';
 const list = ref<any[]>([]);
@@ -112,6 +122,8 @@ const Details = (id: string | number) => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      opacity: 1;
+      transition: @opacity;
     }
     .play {
       position: absolute;
@@ -131,6 +143,9 @@ const Details = (id: string | number) => {
   .grid-content:hover {
     .play {
       opacity: 1;
+    }
+    .count {
+      opacity: 0;
     }
   }
 }

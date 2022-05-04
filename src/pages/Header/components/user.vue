@@ -38,7 +38,12 @@
 
 <script lang="ts" setup>
 import { theme } from '@/global/index';
-import { CaretBottom, Setting, Moon, Sunny } from '@element-plus/icons-vue';
+import {
+  CaretBottom,
+  Setting,
+  Moon,
+  Sunny,
+} from '@element-plus/icons-vue';
 
 //解构响应式
 const { color, fontSizeColor } = storeToRefs(theme());
