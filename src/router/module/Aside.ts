@@ -1,11 +1,15 @@
 import type { RouteRecordRaw } from 'vue-router';
 import Find from './find/index';
+
+import Playlist from './playlist/index';
 const Aside: Array<RouteRecordRaw> = [
   {
     path: '/find',
     name: 'find',
     component: (): Promise<any> =>
-      import(/* webpackChunkName: "find" */ '@/pages/Mian/find/index.vue'),
+      import(
+        /* webpackChunkName: "find" */ '@/pages/Mian/find/index.vue'
+      ),
     meta: {
       title: '发现音乐',
       keepAlive: true,
@@ -30,7 +34,9 @@ const Aside: Array<RouteRecordRaw> = [
     path: '/video',
     name: 'video',
     component: (): Promise<any> =>
-      import(/* webpackChunkName: "video" */ '@/pages/Mian/video/index.vue'),
+      import(
+        /* webpackChunkName: "video" */ '@/pages/Mian/video/index.vue'
+      ),
     meta: {
       title: '视频',
       keepAlive: true,
@@ -40,7 +46,9 @@ const Aside: Array<RouteRecordRaw> = [
     path: '/follow',
     name: 'follow',
     component: (): Promise<any> =>
-      import(/* webpackChunkName: "follow" */ '@/pages/Mian/follow/index.vue'),
+      import(
+        /* webpackChunkName: "follow" */ '@/pages/Mian/follow/index.vue'
+      ),
     meta: {
       title: '关注',
       keepAlive: true,
@@ -50,7 +58,9 @@ const Aside: Array<RouteRecordRaw> = [
     path: '/live',
     name: 'live',
     component: (): Promise<any> =>
-      import(/* webpackChunkName: "live" */ '@/pages/Mian/live/index.vue'),
+      import(
+        /* webpackChunkName: "live" */ '@/pages/Mian/live/index.vue'
+      ),
     meta: {
       title: '直播',
       keepAlive: true,
@@ -80,13 +90,3 @@ const Aside: Array<RouteRecordRaw> = [
   },
 ];
 export default Aside;
-
-function unique(arr: number[]): number[] {
-  var res = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (res.indexOf(arr[i]) == -1) {
-      res.push(arr[i]);
-    }
-  }
-  return res;
-}

@@ -53,7 +53,7 @@ onMounted(async () => {
   console.log(data.result);
 });
 const router = useRouter();
-const Details = (id: string | number) => {
+const Details = (id: number) => {
   router.push({
     name: 'Details',
     params: {

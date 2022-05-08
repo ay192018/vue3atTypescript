@@ -18,3 +18,38 @@ export const time = (time: string) => {
     day < 10 ? 0 : ''
   }${day} `;
 };
+
+export const formatTime = (time: number) => {
+  const minute = Math.floor(time / 60);
+  const second = Math.floor(time % 60);
+  return `${minute}:${second < 10 ? 0 : ''}${second}`;
+};
+/* 节流 */
+export const throttle = (fn: Function, delay: number) => {
+  let timer: NodeJS.Timer | null = null;
+  return (...arg: any[]) => {
+    if (!timer) {
+      timer = setTimeout(() => {
+        fn().apply(this, arg);
+        timer = null;
+      }, delay);
+    }
+  };
+};
+/* 毫秒级转换成00:00格式 */
+export const formatTime2 = (time: number): string => {
+  return `${
+    Math.floor(time / 1000 / 60) < 10 ? 0 : ''
+  }${Math.floor(time / 1000 / 60)}:${
+    (Math.floor(time / 1000) / 60 -
+      Math.floor(Math.floor(time / 1000) / 60)) *
+      60 <
+    10
+      ? 0
+      : ''
+  }${(
+    (Math.floor(time / 1000) / 60 -
+      Math.floor(Math.floor(time / 1000) / 60)) *
+    60
+  ).toFixed(0)}`;
+};

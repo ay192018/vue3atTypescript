@@ -7,7 +7,9 @@ export const Banner = (): Promise<any> => {
 interface Limit {
   limit: string | number;
 }
-export const Recommended = (params: Limit): Promise<any> => {
+export const Recommended = (
+  params: Limit,
+): Promise<any> => {
   return $HTTP({
     url: '/personalized',
     params,
@@ -17,9 +19,31 @@ interface PlaylistDetail {
   id: string | number;
   s?: number;
 }
-export const PlaylistDetail = (params: PlaylistDetail): Promise<any> => {
+export const PlaylistDetail = (
+  params: PlaylistDetail,
+): Promise<any> => {
   return $HTTP({
     url: '/playlist/detail',
+    params,
+  });
+};
+interface idList {
+  ids: string;
+}
+export const AllSongList = (
+  params: idList,
+): Promise<any> => {
+  return $HTTP({
+    url: '/song/detail',
+    params,
+  });
+};
+interface SongUrl {
+  id: string | number;
+}
+export const SongUrl = (params: SongUrl): Promise<any> => {
+  return $HTTP({
+    url: '/song/url',
     params,
   });
 };

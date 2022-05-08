@@ -1,7 +1,7 @@
 <template>
   <div class="Details">
-    <Playlist :playlist="playlist" />
     <SongData :playlist="playlist" />
+    <Playlist :playlist="playlist" />
   </div>
 </template>
 
@@ -16,14 +16,24 @@ const params = defineProps({
     required: true,
   },
 });
+
 const playlist = ref<any>({});
+
 onMounted(async () => {
+  /*  console.log(params); */
+
   const { data } = await PlaylistDetail({
     id: params.id,
   });
   playlist.value = data.playlist;
-  console.log(data);
+
+  console.log(playlist.value);
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.Details {
+  height: 80vh;
+  overflow-y: auto;
+}
+</style>

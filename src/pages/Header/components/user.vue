@@ -69,10 +69,12 @@ const changeColor = (e: string): void => {
 };
 
 const changeTheme = (e: boolean) => {
+  /*  console.log(e); */
+
   if (e) {
-    color.value = 'rgb(36, 36, 36)';
+    color.value = '#242424';
   } else {
-    color.value = 'rgb(245, 245, 245)';
+    color.value = '#EC4141';
   }
 };
 watch(

@@ -26,6 +26,7 @@ module.exports = {
   rangeEnd: Infinity,
   // 不需要写文件开头的 @prettier
   requirePragma: false,
+
   // 不需要自动在文件开头插入 @prettier
   insertPragma: false,
   // 使用默认的折行标准

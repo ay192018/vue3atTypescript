@@ -33,14 +33,14 @@
                 /></el-icon> </template
             ></el-button>
             <el-button round>
-              收藏(3130万)
+              收藏({{ count(playlist.subscribedCount) }})
               <template #icon>
                 <el-icon :size="19" color="#fff"
                   ><folder-add
                 /></el-icon> </template
             ></el-button>
             <el-button round>
-              分享(60万)
+              分享({{ count(playlist.shareCount) }})
               <template #icon>
                 <el-icon :size="19" color="#fff"
                   ><folder-add
@@ -68,13 +68,13 @@
               ></span
             ><br />
             <span
-              >简介：<span class="time">{{
-                playlist.description
-              }}</span></span
-            >
-          </div>
-        </div></el-col
-      >
+              >简介：<span
+                class="time"
+                v-html="playlist.description"
+              ></span
+            ></span>
+          </div></div
+      ></el-col>
     </el-row>
   </div>
 </template>
@@ -102,7 +102,6 @@ const result = defineProps({
 watchEffect(
   () => {
     creator.value = result.playlist.creator;
-    console.log(creator.value);
   },
   {
     flush: 'post',
@@ -126,6 +125,7 @@ const { playlist } = toRefs(result);
       width: 100%;
       height: width;
       border-radius: 8px;
+      cursor: pointer;
     }
 
     .title {
