@@ -1,9 +1,16 @@
 <template>
-  <div class="songData">
+  <div class="songData hidden-xs-only">
     <el-row :gutter="20">
       <el-col :span="4"
         ><div class="grid-content">
-          <img :src="playlist.coverImgUrl" /></div
+          <!--  <img :src="playlist.coverImgUrl" /> -->
+          <el-image
+            width="100%"
+            style="border-radius: 8px"
+            :src="playlist.coverImgUrl"
+            :preview-src-list="imglist"
+            fit="cover"
+          /></div
       ></el-col>
       <el-col :span="15"
         ><div class="grid-content ellipsis">
@@ -23,7 +30,7 @@
           </div>
           <div class="btns">
             <el-button type="primary" round>
-              播放全部 &nbsp&nbsp
+              播放全部 &nbsp;&nbsp;
               <el-icon :size="19" color="#fff"
                 ><plus
               /></el-icon>
@@ -62,7 +69,7 @@
                 playlist.trackCount
               }}</span>
               <span
-                >&nbsp播放：<span class="time">{{
+                >&nbsp;播放：<span class="time">{{
                   count(playlist.playCount)
                 }}</span></span
               ></span
@@ -89,6 +96,7 @@ import {
 } from '@element-plus/icons-vue';
 const { color } = storeToRefs(theme());
 const creator = ref<any>({});
+const imglist = ref<any>([]);
 const result = defineProps({
   playlist: {
     type: Object,
@@ -102,6 +110,7 @@ const result = defineProps({
 watchEffect(
   () => {
     creator.value = result.playlist.creator;
+    imglist.value.push(playlist.value.coverImgUrl);
   },
   {
     flush: 'post',
@@ -162,11 +171,6 @@ const { playlist } = toRefs(result);
     a {
       color: #507daf;
       margin: 0 1%;
-    }
-    .ellipsis {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
     }
   }
 }

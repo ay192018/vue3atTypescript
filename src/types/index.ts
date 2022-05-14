@@ -12,3 +12,16 @@ export interface Item {
   uid: number;
   v: number;
 }
+export interface audio {
+  element: unknown;
+  songData: songData;
+  songs: any[];
+}
+export interface songData {
+  url: string;
+
+  playing: boolean;
+  duration: number | string;
+  currentTime: number | string;
+  index: number;
+}

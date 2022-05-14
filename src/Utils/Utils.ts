@@ -53,3 +53,42 @@ export const formatTime2 = (time: number): string => {
     60
   ).toFixed(0)}`;
 };
+
+/* import { SongUrl } from '@/service/api/find';
+
+  import { Audio } from '@/global/index';
+
+  const { element, songData, songs } = storeToRefs(Audio());
+
+export const playAudio = async (
+  id: number,
+  index: number,
+  nextTick: Function,
+) => {
+  const { data } = await SongUrl({
+    id,
+  });
+  if ((element.value as HTMLAudioElement).paused) {
+    songData.value.index = index;
+    songData.value.url = data.data[0].url;
+    songData.value.songName = songs.value[index].name;
+    songData.value.singerName =
+      songs.value[index].ar[0].name;
+    songData.value.picUrl = songs.value[index].al.picUrl;
+    nextTick(() => {
+      songData.value.playing = true;
+      (element.value as HTMLAudioElement).play();
+    });
+  } else {
+    songData.value.index = index;
+    songData.value.url = data.data[0].url;
+    songData.value.songName = songs.value[index].name;
+    songData.value.singerName =
+      songs.value[index].ar[0].name;
+    songData.value.picUrl = songs.value[index].al.picUrl;
+    nextTick(() => {
+      (element.value as HTMLAudioElement).play();
+    });
+  }
+};
+ */

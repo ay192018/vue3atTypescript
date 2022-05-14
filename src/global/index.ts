@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { Name } from './config/moduleName';
+import type { audio } from '@/types/index';
 export const mian = defineStore(Name.mian, {
   state: () => {
     return {
@@ -18,45 +19,26 @@ export const theme = defineStore(Name.theme, {
     };
   },
 });
-interface audio {
-  element: unknown;
-  songData: songData;
-  songs: any[];
-}
-interface songData {
-  url: string;
-  songName: string;
-  singerName: string;
-  picUrl: string;
-  playing: boolean;
-  duration: number | string;
-  currentTime: number | string;
-}
+
 export const Audio = defineStore(Name.audio, {
   state: (): audio => {
     return {
       element: null,
       songData: {
         url: '',
-        songName: '',
-        singerName: '',
-        picUrl: '',
         playing: false,
         duration: '00:00',
         currentTime: '00:00',
+        index: 0,
       },
       songs: [],
     };
   },
   actions: {
     AudioPlay() {
-      console.log(1);
+      console.log(this);
     },
   },
-  getters: {
-    ComcurrentTime(state) {
-      console.log(state);
-    },
-  },
+  getters: {},
 });
 export {};

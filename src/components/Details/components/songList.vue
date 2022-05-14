@@ -3,20 +3,79 @@
     <el-table
       :data="tableData"
       v-if="loading"
-      @cell-dblclick="dblclick"
+      cell-class-name="active"
+      lazy
     >
       <el-table-column type="index" width="50" />
-      <el-table-column label="操作" type="selection" />
+
       <el-table-column prop="name" label="标题">
-      </el-table-column>
-      <el-table-column prop="ar[0].name" label="歌手">
-      </el-table-column>
-      <el-table-column prop="al.name" label="专辑">
-        <template #empty>
-          <div>未知专辑</div>
+        <template #default="scope">
+          <div
+            class="ellipsis"
+            :class="{
+              active:
+                songs?.[songData.index]?.id ===
+                scope.row.id,
+            }"
+            @dblclick="play(scope.row.id, scope.$index)"
+          >
+            <el-icon :size="20"><star /></el-icon
+            >&nbsp;&nbsp;{{ scope.row.name }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column prop="dt" label="时间" />
+      <el-table-column prop="ar[0].name" label="歌手">
+        <template #default="scope">
+          <div
+            class="ellipsis"
+            :class="{
+              active:
+                songs?.[songData.index]?.id ===
+                scope.row.id,
+            }"
+            style="display: flex; align-items: center"
+            @dblclick="play(scope.row.id, scope.$index)"
+          >
+            <div
+              v-for="(item, index) in scope.row.ar"
+              :key="index"
+            >
+              <span v-if="index !== 0">&nbsp;/&nbsp;</span
+              >{{ item.name }}
+            </div>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="al.name" label="专辑">
+        <template #default="scope">
+          <div
+            class="ellipsis"
+            :class="{
+              active:
+                songs?.[songData.index]?.id ===
+                scope.row.id,
+            }"
+            @dblclick="play(scope.row.id, scope.$index)"
+          >
+            &nbsp;&nbsp;{{ scope.row.al.name }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="dt" label="时间">
+        <template #default="scope">
+          <div
+            class="ellipsis"
+            :class="{
+              active:
+                songs?.[songData.index]?.id ===
+                scope.row.id,
+            }"
+            @dblclick="play(scope.row.id, scope.$index)"
+          >
+            &nbsp;&nbsp;{{ formatTime2(scope.row.dt) }}
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
     <el-skeleton :rows="16" animated v-else />
   </div>
@@ -25,10 +84,13 @@
 <script setup lang="ts">
 import { AllSongList, SongUrl } from '@/service/api/find';
 import type { Item } from '@/types/index';
-import { theme } from '@/global/index';
-import { Audio } from '@/global/index';
+
+import { Audio, theme } from '@/global/index';
+/* import { playAudio } from '@/Utils/Utils'; */
+import { Star } from '@element-plus/icons-vue';
 const { element, songData, songs } = storeToRefs(Audio());
 import { formatTime2 } from '@/Utils/Utils';
+
 const { color } = storeToRefs(theme());
 const loading = ref<boolean>(false);
 const playlist = defineProps({
@@ -38,7 +100,6 @@ const playlist = defineProps({
   },
 });
 
-console.log(playlist.playlist);
 interface Dt {
   dt: number | string;
 }
@@ -54,48 +115,33 @@ watchEffect(async () => {
     const { data } = await AllSongList({
       ids: result,
     });
-
-    data.songs.forEach((item: Dt) => {
-      item.dt = formatTime2(item.dt);
-    });
     tableData.value = data.songs;
     loading.value = true;
   }
 });
-const dblclick = async (
-  row: any,
-  column: any,
-  cell: any,
-  event: MouseEvent,
-) => {
-  console.log(row, column, cell, event);
+const play = async (id: number, index: number) => {
   songs.value = tableData.value;
-  const { data } = await SongUrl({
-    id: row.id,
-  });
 
-  console.log((element.value as HTMLAudioElement).paused);
+  const { data } = await SongUrl({
+    id,
+  });
   if ((element.value as HTMLAudioElement).paused) {
+    songData.value.index = index;
     songData.value.url = data.data[0].url;
-    songData.value.songName = row.name;
-    songData.value.singerName = row.ar[0].name;
-    songData.value.picUrl = row.al.picUrl;
     nextTick(() => {
       songData.value.playing = true;
       (element.value as HTMLAudioElement).play();
     });
   } else {
+    songData.value.index = index;
     songData.value.url = data.data[0].url;
-    songData.value.songName = row.name;
-    songData.value.singerName = row.ar[0].name;
-    songData.value.picUrl = row.al.picUrl;
+
     nextTick(() => {
       (element.value as HTMLAudioElement).play();
-
-      console.log(1);
     });
   }
 };
+
 const tableData = ref<any>([]);
 </script>
 
@@ -112,11 +158,12 @@ const tableData = ref<any>([]);
   }
   ::v-deep(.el-table__row) {
     transition: background 0.3s;
+    color: var(---color);
   }
-
   ::v-deep(.el-table__cell) {
     background: var(---tableBackground-color-odd);
     transition: background 0.3s;
+    cursor: pointer;
   }
   ::v-deep(.is-checked),
   ::v-deep(.el-checkbox__inner) {
@@ -126,6 +173,12 @@ const tableData = ref<any>([]);
   ::v-deep(.el-skeleton.is-animated .el-skeleton__item) {
     background: var(---SkeletonBackground);
     animation: el-skeleton-loading 1.4s ease infinite;
+  }
+  ::v-deep(.el-icon) {
+    vertical-align: middle;
+  }
+  .active {
+    color: v-bind(color);
   }
 }
 </style>

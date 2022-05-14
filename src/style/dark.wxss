@@ -1,0 +1,15 @@
+:root [color-scheme='dark'] {
+  ---headerBackground-color: #242424;
+  ---AsideBorderRight-color: #404040;
+  ---AsideBackground-color: #2b2b2b;
+  ---Aside-color: #fff;
+  ---AsideActiveBackground-color: #333333;
+  ---MainBackground-color: #2b2b2b;
+  ---Main-color: #b5b5b5;
+  ---inputBackground-color: #2a2a2d;
+  ---color: #fff;
+  ---audioBackgoud-color: #242424;
+  ---tableBackground-color-odd: #2f2f2f;
+  ---tableBackground-color-even: #2b2b2b;
+  ---SkeletonBackground: linear-gradient(90deg, #303030 25%, #424243 37%, #303030 63%);
+}

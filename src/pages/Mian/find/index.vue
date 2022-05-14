@@ -17,7 +17,8 @@
           enter-active-class="slide-fade-enter-from"
           leave-active-class="slide-fade-leave-to"
         >
-          <component class="child-view" :is="Component"> </component>
+          <component class="child-view" :is="Component">
+          </component>
         </transition>
       </router-view>
     </div>
@@ -30,7 +31,10 @@ const activeRouter = ref<string | number>(0);
 const router = useRouter();
 import { theme } from '@/global/index';
 const { color } = storeToRefs(theme());
-const sendRouter = (url: string, index: string | number) => {
+const sendRouter = (
+  url: string,
+  index: string | number,
+) => {
   router.push({
     path: url,
   });
