@@ -32,7 +32,7 @@
     <div class="content">
       <div class="top">
         <div
-          class="icon nav-icon-4"
+          class="nav-icon-4"
           @mouseover="activeLeft = true"
           @mouseout="activeLeft = false"
           :class="{ open: activeLeft }"
@@ -54,7 +54,7 @@
         /></el-icon>
 
         <div
-          class="icon nav-icon-3"
+          class="nav-icon-3"
           @mouseover="activeRight = true"
           @mouseout="activeRight = false"
           :class="{ open: activeRight }"
