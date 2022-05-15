@@ -27,7 +27,7 @@ onMounted(async () => {
   });
   playlist.value = data.playlist;
 
-  console.log(playlist.value);
+  /* console.log(playlist.value); */
 });
 </script>
 

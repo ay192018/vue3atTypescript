@@ -11,9 +11,12 @@
       <el-tab-pane label="评论" name="second"
         ><CommentList
       /></el-tab-pane>
-      <el-tab-pane label="收藏者" name="third"
-        ><CollectionList
-      /></el-tab-pane>
+      <el-tab-pane label="收藏者" name="third">
+        <CollectionList
+          :id="params.playlist.id"
+          v-if="params.playlist.id"
+        />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -24,6 +27,7 @@ import SongLsit from './songList.vue';
 import CommentList from './commentList.vue';
 import CollectionList from './collectionList.vue';
 import { theme } from '@/global/index';
+
 const { color } = storeToRefs(theme());
 const activeName = ref('first');
 
@@ -31,7 +35,7 @@ const handleClick = (
   tab: TabsPaneContext,
   event: Event,
 ) => {
-  console.log(tab, event);
+  /*   console.log(tab, event); */
 };
 const params = defineProps({
   playlist: {
@@ -39,7 +43,7 @@ const params = defineProps({
     required: true,
   },
 });
-
+/* console.log(params); */
 const list = ref([
   {
     title: '歌曲列表',

@@ -47,3 +47,16 @@ export const SongUrl = (params: SongUrl): Promise<any> => {
     params,
   });
 };
+interface Subscribers {
+  id: number;
+  limit: number;
+  offset: number;
+}
+export const subscribers = (
+  params: Subscribers,
+): Promise<any> => {
+  return $HTTP({
+    url: '/playlist/subscribers',
+    params,
+  });
+};

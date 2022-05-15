@@ -1,9 +1,21 @@
 <template>
   <div class="banner">
-    <el-carousel :interval="3000" type="card" height="200px" trigger="click">
-      <el-carousel-item v-for="(item, index) in banner" :key="index">
+    <el-carousel
+      :interval="2000"
+      type="card"
+      height="200px"
+      trigger="click"
+    >
+      <el-carousel-item
+        v-for="(item, index) in banner"
+        :key="index"
+      >
         <div class="item">
-          <img :src="item.imageUrl" :alt="item.typeTitle" draggable="false" />
+          <img
+            :src="item.imageUrl"
+            :alt="item.typeTitle"
+            draggable="false"
+          />
           <div class="title">{{ item.typeTitle }}</div>
         </div>
       </el-carousel-item>
@@ -18,7 +30,7 @@ import { theme } from '@/global/index';
 const banner = ref([]);
 const { color } = storeToRefs(theme());
 onMounted(async () => {
-  const { data }: any = await Banner();
+  const { data } = await Banner();
 
   banner.value = data.banners;
 });

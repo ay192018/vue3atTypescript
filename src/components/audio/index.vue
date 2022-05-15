@@ -3,7 +3,7 @@
     <div class="left" v-if="songData.index !== null">
       <el-image
         style="
-          width: 20%;
+          width: 16%;
           border-radius: 8px;
           cursor: pointer;
         "
@@ -12,7 +12,7 @@
         @click="drawer = true"
         lazy
       />
-      <div class="songData">
+      <div class="songData ellipsis">
         <div class="songName">
           {{ songs?.[songData.index]?.name }}
         </div>
@@ -36,6 +36,7 @@
           @mouseover="activeLeft = true"
           @mouseout="activeLeft = false"
           :class="{ open: activeLeft }"
+          @click="prevPlay"
         >
           <span style="background: var(---color)"></span>
           <span style="background: var(---color)"></span>
@@ -57,6 +58,7 @@
           @mouseover="activeRight = true"
           @mouseout="activeRight = false"
           :class="{ open: activeRight }"
+          @click="nextPlay"
         >
           <span style="background: var(---color)"></span>
           <span style="background: var(---color)"></span>
@@ -112,10 +114,10 @@ import { log } from 'console';
 const { color } = storeToRefs(theme());
 const { element, songData, songs } = storeToRefs(Audio());
 import { formatTime } from '@/Utils/Utils';
-import { ElNotification } from 'element-plus';
+import { ElNotification, ElMessage } from 'element-plus';
 const controls = ref();
 const durationEnd = ref<number>(0);
-const direction = ref('rtl');
+
 import {
   CaretRight,
   CaretLeft,
@@ -125,7 +127,8 @@ import {
 const activeLeft = ref<boolean>(false);
 const activeRight = ref<boolean>(false);
 const progress = ref<number>(0);
-const drawer = ref(false);
+const drawer = ref<boolean>(false);
+const playtype = ref<number>(2);
 onMounted((): void => {
   element.value = controls.value;
 });
@@ -145,6 +148,68 @@ watch(
   },
 );
 
+const playIndex = (index: number): number => {
+  if (playtype.value === 1) {
+    return index + 1;
+  } else if (playtype.value === 2) {
+    //随机播放
+    return Math.floor(Math.random() * songs?.value?.length);
+  } else {
+    return index;
+  }
+};
+/* 下一首 */
+const nextPlay = async () => {
+  if (songs?.value?.length === 0) {
+    return;
+  }
+  nextTick(() => {
+    songData.value.playing = false;
+    (element.value as HTMLAudioElement).pause();
+  });
+  const index = playIndex(songData?.value.index);
+  if (index === songs?.value?.length) {
+    songData.value.index = 0;
+  } else {
+    songData.value.index = index;
+  }
+  const { data } = await SongUrl({
+    id: songs.value?.[songData.value.index]?.id,
+  });
+  /*   console.log(data); */
+
+  songData.value.url = data.data[0].url;
+  nextTick(() => {
+    songData.value.playing = true;
+    (element.value as HTMLAudioElement).play();
+  });
+};
+/* 上一首 */
+const prevPlay = async () => {
+  if (songs?.value?.length === 0) {
+    return;
+  }
+  nextTick(() => {
+    songData.value.playing = false;
+    (element.value as HTMLAudioElement).pause();
+  });
+  const index = playIndex(songData?.value.index);
+  if (index === 0) {
+    songData.value.index = songs?.value?.length - 1;
+  } else {
+    songData.value.index = index - 1;
+  }
+  const { data } = await SongUrl({
+    id: songs.value?.[songData.value.index]?.id,
+  });
+  /*   console.log(data); */
+
+  songData.value.url = data.data[0].url;
+  nextTick(() => {
+    songData.value.playing = true;
+    (element.value as HTMLAudioElement).play();
+  });
+};
 /* audio加载完毕事件 */
 const loadedmetadata = (e: Event): void => {
   songData.value.duration = formatTime(
@@ -156,11 +221,11 @@ const loadedmetadata = (e: Event): void => {
 };
 /* 播放报错事件 */
 const error = (e: Event): void => {
-  /*   ElNotification({
-    title: 'Error',
-    message: 'This is an error message',
+  ElMessage({
+    showClose: true,
+    message: 'Oops, this is a error message.',
     type: 'error',
-  }); */
+  });
 };
 /* 播放完毕事件 */
 const ended = async (e: Event) => {
@@ -169,7 +234,9 @@ const ended = async (e: Event) => {
     (element.value as HTMLAudioElement).pause();
   });
 
-  songData.value.index++;
+  songData.value.index = playIndex(songData.value.index);
+  console.log(songData.value.index);
+
   const { data } = await SongUrl({
     id: songs.value?.[songData.value.index]?.id,
   });
@@ -203,6 +270,7 @@ const seek = (val: number): void => {
   });
 };
 const toggle = (): void => {
+  if (!songs.value.length) return;
   nextTick((): void => {
     if (
       (element.value as HTMLAudioElement).paused &&
@@ -304,5 +372,9 @@ const toggle = (): void => {
     transition: 350ms cubic-bezier(0.8, 0.5, 0.2, 1.4);
     background: v-bind(color) !important;
   }
+  /*  :global(.el-notification, .right) {
+    background: v-bind(color) !important;
+    color: var(---color) !important;
+  } */
 }
 </style>
