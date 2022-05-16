@@ -160,6 +160,7 @@ const tableData = ref<any>([]);
     transition: background 0.3s;
     color: var(---color);
   }
+
   ::v-deep(.el-table__cell) {
     background: var(---tableBackground-color-odd);
     transition: background 0.3s;

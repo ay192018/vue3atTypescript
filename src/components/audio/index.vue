@@ -81,7 +81,41 @@
         <span>{{ songData.duration }}</span>
       </div>
     </div>
-    <div class="right"></div>
+    <div class="right">
+      <div class="left">
+        <el-icon :size="35"><Headset /></el-icon>
+
+        <el-slider
+          v-model="volume"
+          size="small"
+          class="volume"
+          @change="changeVolume"
+          @input="changeVolume"
+        />
+      </div>
+      <el-icon
+        @click="changePlay"
+        :size="35"
+        v-if="playtype === 0"
+        ><Switch /></el-icon
+      ><el-icon
+        @click="changePlay"
+        :size="35"
+        v-else-if="playtype === 1"
+        ><Refresh /></el-icon
+      ><el-icon @click="changePlay" :size="35" v-else
+        ><Compass
+      /></el-icon>
+      <div
+        class="nav-icon-5"
+        :calss="{ open: footerList }"
+        @click="footerList = !footerList"
+      >
+        <span style="background: var(---color)"></span>
+        <span style="background: var(---color)"></span>
+        <span style="background: var(---color)"></span>
+      </div>
+    </div>
     <audio
       :src="songData.url"
       controls
@@ -117,25 +151,34 @@ import { formatTime } from '@/Utils/Utils';
 import { ElNotification, ElMessage } from 'element-plus';
 const controls = ref();
 const durationEnd = ref<number>(0);
-
+const volume = ref<number>(50);
+const footerList = ref<boolean>(false);
 import {
   CaretRight,
   CaretLeft,
   VideoPlay,
   VideoPause,
+  Headset,
+  Sort,
+  Switch,
+  Refresh,
+  Compass,
 } from '@element-plus/icons-vue';
 const activeLeft = ref<boolean>(false);
 const activeRight = ref<boolean>(false);
 const progress = ref<number>(0);
 const drawer = ref<boolean>(false);
-const playtype = ref<number>(2);
+const playtype = ref<number>(0); /* 0 顺序 1循环 2随机 */
 onMounted((): void => {
   element.value = controls.value;
+
+  (element.value as HTMLAudioElement).volume =
+    volume.value / 100;
 });
 watch(
   () => songs?.value?.[songData?.value?.index]?.id,
   (v, o) => {
-    if (v !== o) {
+    if (v) {
       ElNotification({
         title: songs?.value[songData?.value.index]?.name,
         message: h(
@@ -147,15 +190,41 @@ watch(
     }
   },
 );
-
-const playIndex = (index: number): number => {
-  if (playtype.value === 1) {
-    return index + 1;
-  } else if (playtype.value === 2) {
-    //随机播放
-    return Math.floor(Math.random() * songs?.value?.length);
+/* 音量 */
+const changeVolume = (e: any): void => {
+  (element.value as HTMLAudioElement).volume = e / 100;
+};
+/* 播放模式 */
+const changePlay = (): void => {
+  if (playtype.value === 0) {
+    playtype.value = 1;
+    ElMessage({
+      message: '循环播放',
+      type: 'success',
+    });
+  } else if (playtype.value === 1) {
+    ElMessage({
+      message: '随机播放',
+      type: 'success',
+    });
+    playtype.value = 2;
   } else {
+    ElMessage({
+      message: '顺序播放',
+      type: 'success',
+    });
+    playtype.value = 0;
+  }
+};
+const playIndex = (index: number): number => {
+  if (playtype.value === 0) {
+    return index + 1; /* 顺序 */
+  } else if (playtype.value === 1) {
+    //循环播放
     return index;
+  } else {
+    return Math.floor(Math.random() * songs?.value?.length);
+    /* 随机 */
   }
 };
 /* 下一首 */
@@ -299,10 +368,8 @@ const toggle = (): void => {
   color: var(---color);
   z-index: 100;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   .left {
-    width: 30%;
+    width: 33%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -320,8 +387,22 @@ const toggle = (): void => {
       }
     }
   }
+  .right {
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .left {
+      width: 40%;
+      display: flex;
+      align-items: center;
+      .volume {
+        width: 50%;
+      }
+    }
+  }
   .content {
-    width: 40%;
+    width: 33%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -332,13 +413,6 @@ const toggle = (): void => {
       justify-content: space-around;
       align-items: center;
       margin: 0 auto;
-      ::v-deep(.el-icon) {
-        cursor: pointer;
-      }
-
-      ::v-deep(.el-icon):hover {
-        color: v-bind(color);
-      }
     }
     .bottom {
       display: flex;
@@ -348,22 +422,12 @@ const toggle = (): void => {
         width: 80%;
         margin: 0 4%;
       }
-      ::v-deep(.el-slider__bar) {
-        background: v-bind(color);
-        transition: all 0.3s;
-      }
-      ::v-deep(.el-slider__button) {
-        border: 2px v-bind(color) solid;
-      }
-      ::v-deep(.el-slider__button-wrapper) {
-        transition: all 0.3s;
-      }
     }
   }
-  .right {
+  /*  .right {
     width: 30%;
     height: 100%;
-  }
+  } */
   .nav-icon-3.open span {
     transition: 0.3s cubic-bezier(0.8, 0.2, 0.4, 1.2);
     background: v-bind(color) !important;
@@ -376,5 +440,25 @@ const toggle = (): void => {
     background: v-bind(color) !important;
     color: var(---color) !important;
   } */
+  ::v-deep(.el-icon) {
+    cursor: pointer;
+  }
+
+  ::v-deep(.el-icon):hover {
+    color: v-bind(color);
+  }
+  ::v-deep(.el-slider__bar) {
+    background: v-bind(color);
+    transition: all 0.3s;
+  }
+  ::v-deep(.el-slider__button) {
+    border: 2px v-bind(color) solid;
+  }
+  ::v-deep(.el-slider__button-wrapper) {
+    transition: all 0.3s;
+  }
+  .nav-icon-5:hover {
+    color: v-bind(color);
+  }
 }
 </style>

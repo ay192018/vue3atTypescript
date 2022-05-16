@@ -69,8 +69,6 @@ const changeColor = (e: string): void => {
 };
 
 const changeTheme = (e: boolean) => {
-  /*  console.log(e); */
-
   if (e) {
     color.value = '#242424';
   } else {

@@ -40,12 +40,6 @@ import Aside from '@/pages/Aside/index.vue';
 import Audio from '@/components/audio/index.vue';
 import { theme } from '@/global/index';
 const { color } = storeToRefs(theme());
-console.log(window, 1);
-
-window.onbeforeunload = function (ev: Event) {
-  return false;
-  alert('确定要离开吗？');
-};
 </script>
 
 <style lang="less" scoped>
