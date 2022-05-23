@@ -6,26 +6,28 @@
     </div>
     <el-row :gutter="20">
       <el-col
-        :span="4"
+        :span="span"
         @click="Details(item.id)"
         v-for="(item, index) in list"
         :key="index"
         ><div class="grid-content">
-          <img
-            :src="item.picUrl"
-            alt=""
-            draggable="false"
-          />
+          <div class="img">
+            <img
+              :src="item.picUrl"
+              alt=""
+              draggable="false"
+            />
+            <div class="play hidden-sm-and-down">
+              <el-icon :size="27" :color="color"
+                ><caret-right
+              /></el-icon>
+            </div>
+          </div>
           <div class="data">
             <span class="title">{{ item.name }}</span>
             <div class="count">
               <el-icon :size="20"><video-play /></el-icon>
               {{ count(item.playCount) }}
-            </div>
-            <div class="play">
-              <el-icon :size="27" :color="color"
-                ><caret-right
-              /></el-icon>
             </div>
           </div>
         </div>
@@ -42,15 +44,17 @@ import {
   CaretRight,
 } from '@element-plus/icons-vue';
 import { count } from '@/Utils/Utils';
-import { theme } from '@/global/index';
+import { theme, resizeSpan } from '@/global/index';
+
 const list = ref<any[]>([]);
 const { color } = storeToRefs(theme());
+const { span } = storeToRefs(resizeSpan());
+
 onMounted(async () => {
   const { data } = await Recommended({
     limit: 40,
   });
   list.value = data.result;
-  console.log(data.result);
 });
 const router = useRouter();
 const Details = (id: number) => {
@@ -73,9 +77,11 @@ const Details = (id: number) => {
 .el-col {
   border-radius: 4px;
 } */
-@opacity:opacity .3s;
+@transition:all .3s;
 .recommended {
   width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   .title {
     font-size: 20px;
     color: var(---color);
@@ -98,6 +104,7 @@ const Details = (id: number) => {
       width: 100%;
       height: width;
       border-radius: 15px;
+      transition: @transition;
     }
     .data {
       .title {
@@ -123,29 +130,34 @@ const Details = (id: number) => {
       justify-content: space-between;
       align-items: center;
       opacity: 1;
-      transition: @opacity;
+      transition: @transition;
     }
     .play {
       position: absolute;
       left: 5%;
       bottom: 27%;
-      width: 40px;
-      height: 40px;
+      width: 30%;
+      height: 22%;
       background: #fff;
       border-radius: 50%;
       opacity: 0;
-      transition: @opacity;
-      ::v-deep(.el-icon) {
-        margin: 6px 0 0 7px;
-      }
+      transition: @transition;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .grid-content:hover {
     .play {
       opacity: 1;
+      transform: translateY(-5px);
     }
     .count {
       opacity: 0;
+    }
+    img {
+      transform: translateY(-5px) scale(1.01);
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="banner">
+  <div class="banner hidden-xs-only">
     <el-carousel
       :interval="2000"
       type="card"
@@ -12,11 +12,11 @@
       >
         <div class="item">
           <img
-            :src="item.imageUrl"
-            :alt="item.typeTitle"
+            :src="item?.imageUrl"
+            :alt="item?.typeTitle"
             draggable="false"
           />
-          <div class="title">{{ item.typeTitle }}</div>
+          <div class="title">{{ item?.typeTitle }}</div>
         </div>
       </el-carousel-item>
     </el-carousel>

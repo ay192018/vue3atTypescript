@@ -2,6 +2,7 @@
   <div class="Details">
     <SongData :playlist="playlist" />
     <Playlist :playlist="playlist" />
+ 
   </div>
 </template>
 

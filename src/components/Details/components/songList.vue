@@ -19,7 +19,14 @@
             }"
             @dblclick="play(scope.row.id, scope.$index)"
           >
-            <el-icon :size="20"><star /></el-icon
+            <el-icon
+              :size="20"
+              v-if="
+                songs?.[songData.index]?.id === scope.row.id
+              "
+              ><Mic
+            /></el-icon>
+            <el-icon :size="20" v-else><star /></el-icon
             >&nbsp;&nbsp;{{ scope.row.name }}
           </div>
         </template>
@@ -87,7 +94,11 @@ import type { Item } from '@/types/index';
 
 import { Audio, theme } from '@/global/index';
 /* import { playAudio } from '@/Utils/Utils'; */
-import { Star } from '@element-plus/icons-vue';
+import {
+  Star,
+  StarFilled,
+  Mic,
+} from '@element-plus/icons-vue';
 const { element, songData, songs } = storeToRefs(Audio());
 import { formatTime2 } from '@/Utils/Utils';
 
@@ -126,18 +137,18 @@ const play = async (id: number, index: number) => {
     id,
   });
   if ((element.value as HTMLAudioElement).paused) {
-    songData.value.index = index;
     songData.value.url = data.data[0].url;
     nextTick(() => {
       songData.value.playing = true;
       (element.value as HTMLAudioElement).play();
+      songData.value.index = index;
     });
   } else {
-    songData.value.index = index;
     songData.value.url = data.data[0].url;
 
     nextTick(() => {
       (element.value as HTMLAudioElement).play();
+      songData.value.index = index;
     });
   }
 };

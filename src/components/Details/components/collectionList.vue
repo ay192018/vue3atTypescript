@@ -2,7 +2,7 @@
   <div class="collectionList">
     <el-row :gutter="20">
       <el-col
-        :span="6"
+        :span="collectionSpan"
         v-for="(item, index) in list.subscribers"
         :key="index"
       >
@@ -52,7 +52,8 @@
 import { watchPostEffect } from 'vue-demi';
 import { subscribers } from '@/service/api/find';
 import { Female, Male } from '@element-plus/icons-vue';
-import { theme } from '@/global/index';
+import { theme, resizeSpan } from '@/global/index';
+const { collectionSpan } = storeToRefs(resizeSpan());
 const { color } = storeToRefs(theme());
 const result = defineProps({
   id: {

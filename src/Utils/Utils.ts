@@ -92,7 +92,4 @@ export const playAudio = async (
   }
 };
  */
-/* 封装Ajax */
-class myAjax {
-  constructor() {}
-}
+

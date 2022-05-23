@@ -1,5 +1,5 @@
 <template>
-  <div class="audio">
+  <div class="audio hidden-xs-only">
     <div class="left" v-if="songData.index !== null">
       <el-image
         style="
@@ -83,8 +83,15 @@
     </div>
     <div class="right">
       <div class="left">
-        <el-icon :size="35"><Headset /></el-icon>
-
+        <el-icon
+          :size="25"
+          v-if="volume === 0"
+          @click="cancel"
+          ><Mute
+        /></el-icon>
+        <el-icon :size="25" v-else @click="mute"
+          ><Microphone
+        /></el-icon>
         <el-slider
           v-model="volume"
           size="small"
@@ -95,21 +102,21 @@
       </div>
       <el-icon
         @click="changePlay"
-        :size="35"
+        :size="25"
         v-if="playtype === 0"
         ><Switch /></el-icon
       ><el-icon
         @click="changePlay"
-        :size="35"
+        :size="25"
         v-else-if="playtype === 1"
         ><Refresh /></el-icon
-      ><el-icon @click="changePlay" :size="35" v-else
+      ><el-icon @click="changePlay" :size="25" v-else
         ><Compass
       /></el-icon>
       <div
         class="nav-icon-5"
-        :calss="{ open: footerList }"
-        @click="footerList = !footerList"
+        :class="{ open: footerList }"
+        @click="changeFooterList"
       >
         <span style="background: var(---color)"></span>
         <span style="background: var(---color)"></span>
@@ -163,6 +170,8 @@ import {
   Switch,
   Refresh,
   Compass,
+  Mute,
+  Microphone,
 } from '@element-plus/icons-vue';
 const activeLeft = ref<boolean>(false);
 const activeRight = ref<boolean>(false);
@@ -180,19 +189,35 @@ watch(
   (v, o) => {
     if (v) {
       ElNotification({
+        type: 'success',
         title: songs?.value[songData?.value.index]?.name,
         message: h(
           'i',
-          { style: `color:v-bind(color.value)` },
+          {
+            style: `color:${color.value} !important`,
+          },
           songs?.value[songData.value?.index]?.ar[0]?.name,
         ),
       });
     }
   },
 );
+/* 播放列表 */
+const changeFooterList = (): void => {
+  footerList.value = !footerList.value;
+  console.log(footerList.value);
+};
 /* 音量 */
 const changeVolume = (e: any): void => {
   (element.value as HTMLAudioElement).volume = e / 100;
+};
+const mute = () => {
+  (element.value as HTMLAudioElement).volume = 0;
+  volume.value = 0;
+};
+const cancel = () => {
+  (element.value as HTMLAudioElement).volume = 50 / 100;
+  volume.value = 50;
 };
 /* 播放模式 */
 const changePlay = (): void => {
@@ -237,6 +262,8 @@ const nextPlay = async () => {
     (element.value as HTMLAudioElement).pause();
   });
   const index = playIndex(songData?.value.index);
+  console.log(index);
+
   if (index === songs?.value?.length) {
     songData.value.index = 0;
   } else {
@@ -262,7 +289,7 @@ const prevPlay = async () => {
     songData.value.playing = false;
     (element.value as HTMLAudioElement).pause();
   });
-  const index = playIndex(songData?.value.index);
+  const index = songData?.value.index;
   if (index === 0) {
     songData.value.index = songs?.value?.length - 1;
   } else {
@@ -449,16 +476,19 @@ const toggle = (): void => {
   }
   ::v-deep(.el-slider__bar) {
     background: v-bind(color);
-    transition: all 0.3s;
+    transition: all 0.1s;
   }
   ::v-deep(.el-slider__button) {
     border: 2px v-bind(color) solid;
   }
   ::v-deep(.el-slider__button-wrapper) {
-    transition: all 0.3s;
+    transition: all 0.1s;
   }
   .nav-icon-5:hover {
     color: v-bind(color);
+  }
+  ::v-deep(.el-image__error) {
+    background-color: transparent;
   }
 }
 </style>

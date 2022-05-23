@@ -61,6 +61,8 @@ module.exports = defineConfig({
           'pinia',
           {
             '@vueuse/core': [
+              'useEventListener',
+              'useMouse',
               'useDark',
               'useToggle',
               ['useFetch', 'useMyFetch'],
@@ -92,7 +94,7 @@ module.exports = defineConfig({
     port: 2000,
     proxy: {
       '/api': {
-        target: 'http://www.codeman.ink:3000',
+        target: 'http://localhost:3000', //http://www.codeman.ink:3000
         changeOrigin: true,
         pathRewrite: {
           '^/api': '',

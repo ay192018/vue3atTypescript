@@ -1,5 +1,5 @@
 <template>
-  <div class="find">
+  <div class="find" >
     <ul class="list">
       <li
         v-for="(item, index) in routerList"
@@ -30,7 +30,9 @@ import type { AsideData } from '@/types/index';
 const activeRouter = ref<string | number>(0);
 const router = useRouter();
 import { theme } from '@/global/index';
+
 const { color } = storeToRefs(theme());
+
 const sendRouter = (
   url: string,
   index: string | number,
@@ -40,6 +42,7 @@ const sendRouter = (
   });
   activeRouter.value = index;
 };
+
 const routerList = ref<AsideData[]>([
   {
     name: '个性推荐',

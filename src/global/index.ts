@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
+
 import { Name } from './config/moduleName';
 import type { audio } from '@/types/index';
+
 export const mian = defineStore(Name.mian, {
   state: () => {
     return {
@@ -10,6 +12,8 @@ export const mian = defineStore(Name.mian, {
 });
 interface theme {
   backgroundColor: string;
+  color: string;
+  fontSizeColor: string;
 }
 export const theme = defineStore(Name.theme, {
   state: () => {
@@ -41,4 +45,29 @@ export const Audio = defineStore(Name.audio, {
   },
   getters: {},
 });
-export {};
+export const resizeSpan = defineStore(Name.resizeSpan, {
+  state: () => {
+    return {
+      span: 3,
+      collectionSpan: 6,
+    };
+  },
+});
+export const login = defineStore(Name.login, {
+  state: () => {
+    return {
+      loginShow: false,
+    };
+  },
+});
+export const User = defineStore(Name.user, {
+  state: () => {
+    return {
+      cookie: '',
+      profile:
+        JSON.parse(localStorage.getItem('cookie') as any) ||
+        {},
+      //  JSON.parse(localStorage.getItem('profile') || '') ||
+    };
+  },
+});
